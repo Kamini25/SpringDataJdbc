@@ -18,10 +18,8 @@ public class WalletService {
     CustomerRepository customerRepository;
     HistoryService historyService;
 
-   /* public WalletService(WalletRepository walletRepository, CustomerRepository customerRepository) {
-        this.walletRepository = walletRepository;
-        this.customerRepository = customerRepository;
-    }*/
+    Long maxlimit = (long)100000;
+    Long minLimit = (long)10;
 
     public WalletService(WalletRepository walletRepository, CustomerRepository customerRepository, HistoryService historyService) {
         this.walletRepository = walletRepository;
@@ -36,7 +34,7 @@ public class WalletService {
             throw new Exception("Phone number cannot be null");
         }
        */
-       System.out.println("createuserwallet function");
+      // System.out.println("createuserwallet function");
       Customer user =  customerRepository.findByPhoneNo(phoneNo);
       if(user==null){
           throw new Exception(String.format("User with phoneNo %s is not a registered user ",phoneNo));
@@ -63,8 +61,8 @@ public class WalletService {
         * user is valid with a wallet associated
         * amount is less than max and less than value in bank and should be >0.
         * */
-        if(money<=0){
-            throw new Exception("Enter value greater than 0.");
+        if(money<=0 || money>maxlimit){
+            throw new Exception("Enter value between 1 to 100000");
         }
         Customer toUser = customerRepository.findByPhoneNo(userPhoneNo);
         if(toUser==null){
@@ -94,7 +92,7 @@ public class WalletService {
             * */
          try {
 
-                System.out.println("TESTSSSSS in walletService");
+                //System.out.println("TESTSSSSS in walletService");
                 historyService.transferAmount(toUser, money, bankUser,"ADD_MONEY");
                /* String addMoneyMsg=String.format("Added amount %s",money);
                 updatePassbook(addMoneyMsg,userPhoneNo);*/
@@ -109,7 +107,13 @@ public class WalletService {
 
     public WalletEntity sendMoneyToReceiver(Long fromUserNo, double amount, Long toUserNo) throws Exception {
         if(amount<=0){
-            throw new Exception("Enter value greater than 0.");
+            throw new Exception("Enter value cannot be equal or less than 0");
+        }
+        if(amount<minLimit){
+            throw new Exception(String.format("Min limit to be transferred is %s",minLimit));
+        }
+        if(amount>maxlimit){
+            throw new Exception(String.format("Make sure amount to be transferred should not exceed %s", maxlimit));
         }
         if((fromUserNo==null)|| (toUserNo==null)){
             throw new Exception("Please make sure that neither of sender or receiver number is null.");

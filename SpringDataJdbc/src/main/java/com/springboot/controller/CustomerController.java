@@ -19,10 +19,10 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 public class CustomerController {
     Logger logger = LoggerFactory.getLogger(CustomerController.class);
 
-    public CustomerService dao;
+    public CustomerService customerService;
 
-    public CustomerController(CustomerService dao) {
-        this.dao = dao;
+    public CustomerController(CustomerService customerService) {
+        this.customerService = customerService;
     }
 
     @RequestMapping(value="/createUser",method = RequestMethod.POST)
@@ -40,13 +40,13 @@ public class CustomerController {
        {
            throw new Exception("UserType can be bank,merchant or user");
        }
-        return dao.addCustomer(cust);
+        return customerService.addCustomer(cust);
     }
 
    /* @PostMapping("/createWallet")
     public String createCustomerWallet(@RequestBody Wallet wallet) throws Exception {
         try {
-            String res = dao.createWallet(wallet);
+            String res = customerService.createWallet(wallet);
             return res;
         }
         catch(Exception e){
@@ -57,7 +57,7 @@ public class CustomerController {
     @PostMapping("/addMoney")
     public String addMoneyToWallet(@RequestBody Wallet wallet) throws Exception{
         try {
-            String res = dao.addMoney(wallet);
+            String res = customerService.addMoney(wallet);
             return res;
         }
         catch(Exception e){
@@ -68,7 +68,7 @@ public class CustomerController {
     @PostMapping("/sendMoney")
     public String sendMoneyToUser(@RequestBody Wallet wallet) throws Exception{
         try {
-            String res = dao.sendMoney(wallet);
+            String res = customerService.sendMoney(wallet);
             return res;
         }
         catch(Exception e){
@@ -80,7 +80,7 @@ public class CustomerController {
     @ResponseBody
     public List<String> getPassbookDetails(@PathVariable("phoneNo") long phoneNo) throws Exception{
         try {
-            List<String> details = dao.getDetails(phoneNo);
+            List<String> details = customerService.getDetails(phoneNo);
             return details;
         }
         catch(Exception e){

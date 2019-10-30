@@ -9,12 +9,14 @@ import com.springboot.repository.CustomerRepository;
 import com.springboot.repository.HistoryRepository;
 import com.springboot.repository.WalletRepository;
 
+import org.joda.time.DateTimeComparator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import com.springboot.utils.*;
 //import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 @Service
@@ -47,7 +49,7 @@ public class HistoryService {
             throw new Exception(String.format("No wallet associated with user %s", phoneNo));
         }
         try {
-            Set<History> transactions = new HashSet<>();
+            //Set<History> transactions = new HashSet<>();
             Set<History> toList = historyRepository.findByToPhoneNo(phoneNo);
             Set<History> fromList = historyRepository.findByFromPhoneNo(phoneNo);
             Set<TransactionEntity> transList = new HashSet<>();
@@ -67,7 +69,11 @@ public class HistoryService {
                 transList.add(te);
             }
 
-            return transList;
+            ArrayList<TransactionEntity> al = new ArrayList<TransactionEntity>(transList);
+            Collections.sort(al, new DateSorter());
+            Set sortedSet = new LinkedHashSet(al);
+
+            return sortedSet;
 
         }
         catch (Exception e){

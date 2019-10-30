@@ -26,8 +26,8 @@ public class test {
     @Autowired
     private HistoryService historyService;
 
-    long user1=9990;
-    long user2 = 8808;
+    long user1=99900;
+    long user2 = 88008;
 
     @Test
     public  void testACreateUser() throws Exception {
