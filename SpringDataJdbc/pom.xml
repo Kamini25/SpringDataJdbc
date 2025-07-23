@@ -7,7 +7,7 @@
     <version>1.0-SNAPSHOT</version>
     <name>Spring Data JPA Maven Webapp</name>
     <properties>
-        <spring.framework>4.3.5.RELEASE</spring.framework>
+        <spring.framework>5.2.0.RELEASE</spring.framework>
         <postgres.version>42.1.4</postgres.version>
         <serializer.version>2.8.1</serializer.version>
         <spring.data>1.3.4.RELEASE</spring.data>
